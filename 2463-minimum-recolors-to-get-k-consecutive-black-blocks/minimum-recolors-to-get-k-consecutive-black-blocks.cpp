@@ -1,3 +1,7 @@
+//              *************Using Queue *********
+//                          T.C = O (n)
+//                          S.C = O (k) : Queue
+
 class Solution {
 public:
     int minimumRecolors(string blocks, int k) {
@@ -30,6 +34,11 @@ public:
 };
 
 
+//              *************Using Sliding Window *********
+//                          T.C = O (n)
+//                          S.C = O (1)
+
+
 // class Solution {
 // public:
 //     int minimumRecolors(string blocks, int k) {
@@ -57,6 +66,11 @@ public:
 //     }
 // };
 
+
+
+//              *************Brute Force *********
+//                          T.C = O (n*k)
+//                          S.C = O (1) : Queue
 
 // class Solution {
 // public:

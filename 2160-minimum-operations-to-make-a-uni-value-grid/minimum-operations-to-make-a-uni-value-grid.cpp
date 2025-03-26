@@ -16,8 +16,10 @@ public:
             }
         }
 
-        sort(arr.begin(), arr.end());
         int size = arr.size();
+        // sort(arr.begin(), arr.end());
+        // Partial sorting
+        nth_element(arr.begin(), arr.begin() + size/2, arr.end());
 
         int median = arr[size/2];
 

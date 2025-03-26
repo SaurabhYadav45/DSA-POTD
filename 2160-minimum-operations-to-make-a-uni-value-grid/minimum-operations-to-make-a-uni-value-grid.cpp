@@ -1,9 +1,6 @@
 class Solution {
 public:
     int minOperations(vector<vector<int>>& grid, int x) {
-        int m = grid.size();
-        int n = grid[0].size();
-
         vector<int>arr;
 
         int minOp = 0;
@@ -20,22 +17,12 @@ public:
         }
 
         sort(arr.begin(), arr.end());
+        int size = arr.size();
 
-        int median = arr[(m*n)/2];
+        int median = arr[size/2];
 
         for(int& num : arr){
-            if(num == median) continue;
-            int count = 0;
-            while(num != median){
-                if(num > median){
-                    num = abs(num - x);
-                }
-                else{
-                    num = num + x;
-                }
-                count++;
-            }
-            minOp += count;
+            minOp += (abs(median-num))/x;
         }
         return minOp;
     }

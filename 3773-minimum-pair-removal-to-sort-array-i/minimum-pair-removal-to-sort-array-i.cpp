@@ -26,7 +26,9 @@ public:
                 }
             }
 
+            // delete index+1 element
             nums.erase(nums.begin()+index+1);
+            // replace the element at index with the minSum
             nums[index] = minSum;
             minOp++;
         }

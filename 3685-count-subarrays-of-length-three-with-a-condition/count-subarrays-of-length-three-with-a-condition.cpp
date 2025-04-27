@@ -4,9 +4,9 @@ public:
         int n = nums.size();
         int count = 0;
 
-        for(int i=0; i<n; i++){
+        for(int i=0; i<=n-3; i++){
             vector<int>temp;
-            for(int j=i; j<n; j++){
+            for(int j=i; j<i+3; j++){
                 temp.push_back(nums[j]);
                 if(temp.size() == 3){
                     int first = temp[0];

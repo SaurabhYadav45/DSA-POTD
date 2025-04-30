@@ -1,8 +1,8 @@
 class Solution {
 public:
     int totalNumbers(vector<int>& digits) {
-        vector<int> result;
         unordered_map<int, int> freq;
+        int result = 0;
 
         // Count frequency of each digit
         for (int d : digits) {
@@ -17,9 +17,9 @@ public:
 
             unordered_map<int, int> temp = freq;
             if (--temp[a] >= 0 && --temp[b] >= 0 && --temp[c] >= 0) {
-                result.push_back(num);
+                result++;
             }
         }
-        return result.size();
+        return result;
     }
 };

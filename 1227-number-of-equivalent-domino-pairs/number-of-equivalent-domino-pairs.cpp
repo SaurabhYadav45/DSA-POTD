@@ -3,14 +3,13 @@ public:
     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
         int n = dominoes.size();
         int result = 0;
-        unordered_map<string, int>mp;
+        unordered_map<long long, int>mp;
 
         for(auto& vec: dominoes){
-            string s = "";
-            s.push_back(vec[0]);
-            s.push_back(vec[1]);
-            sort(s.begin(), s.end());
-            mp[s]++;
+            int a = vec[0];
+            int b = vec[1];
+            int sum = a < b ? a*10 + b : b*10 + a;
+            mp[sum]++;
         }
 
         for(auto& it : mp){
@@ -20,6 +19,35 @@ public:
         return result;
     }
 };
+
+
+
+
+
+
+
+// class Solution {
+// public:
+//     int numEquivDominoPairs(vector<vector<int>>& dominoes) {
+//         int n = dominoes.size();
+//         int result = 0;
+//         unordered_map<string, int>mp;
+
+//         for(auto& vec: dominoes){
+//             string s = "";
+//             s.push_back(vec[0]);
+//             s.push_back(vec[1]);
+//             sort(s.begin(), s.end());
+//             mp[s]++;
+//         }
+
+//         for(auto& it : mp){
+//             int count  = it.second;
+//             result += (count*(count-1))/2;
+//         }
+//         return result;
+//     }
+// };
 
 
 

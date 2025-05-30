@@ -1,122 +1,198 @@
+class Solution {
+public:
+    int bfs(int i, unordered_map<int, vector<int>>&adj, int k, int size){
+        queue<pair<int, int>>q;
+        q.push({i, 0});
+        int count = 0;
+        vector<int>visited(size, false);
+        visited[i] = true;
+
+        while(!q.empty()){
+            int currNode = q.front().first;
+            int dist = q.front().second;
+            q.pop();
+
+            if(dist > k){
+                continue;
+            }
+
+            count++;
+
+            for(auto& nbr: adj[currNode]){
+                if(!visited[nbr]){
+                    q.push({nbr, dist+1});
+                    visited[nbr] = true;
+                }
+            }
+        }
+        return count;
+    }
+
+    vector<int>findCount(vector<vector<int>>& edges, int k){
+        int n = edges.size()+1;
+        unordered_map<int, vector<int>>adj;
+        vector<int>result(n, 0);
+
+        for(auto& edge : edges){
+            int u = edge[0];
+            int v = edge[1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        for(int i=0; i<n; i++){
+            result[i] = bfs(i, adj, k, n);
+        }
+        return result;
+    }
+    vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+        int N = edges1.size() + 1;
+
+        vector<int>result1 = findCount(edges1, k);
+        vector<int>result2 = findCount(edges2, k-1);
+
+        int maxValue = *max_element(result2.begin(), result2.end());
+
+        for(int i=0; i<result1.size(); i++){
+            result1[i] += maxValue; 
+        }
+        return result1;
+    }
+};
+
+
+
+
+
+//Approach-1 (Using BFS)
+//T.C : O(V*(V+E))
+//S.C : O(V+E)
 // class Solution {
 // public:
-//     int bfs(int i, unordered_map<int, vector<int>>&adj, int k, int size){
-//         queue<int>q;
-//         q.push(i);
-//         int x = k;
-//         int count = 1;
-//         if(x < 0) return 0;
-//         if(x == 0) return 1;
-//         vector<int>visited(size, false);
-//         visited[i] = true;
 
-//         while(!q.empty()){
-//             if(x == 0) return count;
-//             int top = q.front();
-//             q.pop();
-//             bool check = false;
-//             for(auto& nbr: adj[top]){
-//                 if(!visited[nbr]){
-//                     count++;
-//                     q.push(nbr);
-//                     visited[nbr] = true;
-//                     check = true;
+//     int bfs(int curr, unordered_map<int, vector<int>>& adj, int d, int N) {
+
+//         queue<pair<int, int>> que;
+//         que.push({curr, 0});
+//         vector<bool> visited(N, false);
+//         visited[curr] = true;
+
+//         int count = 0; //count the target nodes
+//         while(!que.empty()) {
+//             int currNode = que.front().first;
+//             int dist = que.front().second;
+//             que.pop();
+
+//             if(dist > d) {
+//                 continue;
+//             }
+
+//             count++; //include current node in targetNodes count
+//             //visit neighbors of currNode
+//             for(auto &ngbr : adj[currNode]) {
+//                 if(!visited[ngbr]) {
+//                     visited[ngbr] = true;
+//                     que.push({ngbr, dist+1});
 //                 }
 //             }
-//             if(check){
-//                 x--;
-//             }
+
 //         }
+
 //         return count;
 //     }
-//     vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
-//         int m = edges1.size();
-//         int n = edges2.size();
-//         vector<int>result(m+1, 0);
-//         vector<int>result2(n+1, 0);
-        
 
-//         unordered_map<int, vector<int>>adj;
+//     vector<int> findCount(vector<vector<int>>& edges, int d) {
+//         int N = edges.size()+1;
 
-//         for(auto& edge : edges1){
+//         //adjacency list
+//         unordered_map<int, vector<int>> adj;
+//         for(auto& edge : edges) {
 //             int u = edge[0];
 //             int v = edge[1];
 //             adj[u].push_back(v);
 //             adj[v].push_back(u);
 //         }
 
-//         unordered_map<int, vector<int>>adj2;
-
-//         for(auto& edge : edges2){
-//             int u = edge[0];
-//             int v = edge[1];
-//             adj2[u].push_back(v);
-//             adj2[v].push_back(u);
+//         vector<int> result(N);
+//         for(int i = 0; i < N; i++) {
+//             result[i] = bfs(i, adj, d, N);
 //         }
 
-//         // calculate for graph2
-
-//         for(int i=0; i<=n; i++){
-//             result2[i] = bfs(i, adj2, k-1, n+1);
-//         }
-
-//         int maxValue = *max_element(result2.begin(), result2.end());
-
-//         // calculate for graph1
-
-//         for(int i=0; i<=m; i++){
-//             result[i] = bfs(i, adj, k, m+1);
-//         }
-
-//         for(int i=0; i<=m; i++){
-//             result[i] += maxValue;
-//         }
 //         return result;
+//     }
+
+//     vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+//         //Tree 1 me kitne nodes hain
+//         int N = edges1.size() + 1;
+
+//         vector<int> result1 = findCount(edges1, k); 
+//         vector<int> result2 = findCount(edges2, k-1);
+
+//         int maxTargetNodesCount = *max_element(begin(result2), end(result2));
+        
+//         for(int i = 0; i < result1.size(); i++) {
+//             result1[i] += maxTargetNodesCount;
+//         }
+
+//         return result1;
 //     }
 // };
 
 
+//Approach-2 (Using DFS)
+//T.C : O(V*(V+E))
+//S.C : O(V+E)
+// class Solution {
+// public:
 
-class Solution {
-public:
-    int dfs(int node, int parent, const vector<vector<int>>& children, int k) {
-        if (k < 0) {
-            return 0;
-        }
-        int res = 1;
-        for (int child : children[node]) {
-            if (child == parent) {
-                continue;
-            }
-            res += dfs(child, node, children, k - 1);
-        }
-        return res;
-    }
+//     int dfs(int curr, unordered_map<int, vector<int>>& adj, int d, int currNodeKaParent) {
+//         if(d < 0)
+//             return 0;
+        
+//         int count = 1; //counting current node as 1
 
-    vector<int> build(const vector<vector<int>>& edges, int k) {
-        int n = edges.size() + 1;
-        vector<vector<int>> children(n);
-        for (const auto& edge : edges) {
-            children[edge[0]].push_back(edge[1]);
-            children[edge[1]].push_back(edge[0]);
-        }
-        vector<int> res(n);
-        for (int i = 0; i < n; i++) {
-            res[i] = dfs(i, -1, children, k);
-        }
-        return res;
-    }
+//         for(int &ngbr : adj[curr]) {
+//             if(ngbr != currNodeKaParent) {
+//                 count += dfs(ngbr, adj, d-1, curr);
+//             }
+//         }
 
-    vector<int> maxTargetNodes(vector<vector<int>>& edges1,
-                               vector<vector<int>>& edges2, int k) {
-        int n = edges1.size() + 1, m = edges2.size() + 1;
-        vector<int> count1 = build(edges1, k);
-        vector<int> count2 = build(edges2, k - 1);
-        int maxCount2 = *max_element(count2.begin(), count2.end());
-        vector<int> res(n);
-        for (int i = 0; i < n; i++) {
-            res[i] = count1[i] + maxCount2;
-        }
-        return res;
-    }
-};
+//         return count;
+//     }
+
+//     vector<int> findCount(vector<vector<int>>& edges, int d) {
+//         int N = edges.size()+1;
+
+//         //adjacency list
+//         unordered_map<int, vector<int>> adj;
+//         for(auto& edge : edges) {
+//             int u = edge[0];
+//             int v = edge[1];
+//             adj[u].push_back(v);
+//             adj[v].push_back(u);
+//         }
+
+//         vector<int> result(N);
+//         for(int i = 0; i < N; i++) {
+//             result[i] = dfs(i, adj, d, -1);
+//         }
+
+//         return result;
+//     }
+
+//     vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
+//         //Tree 1 me kitne nodes hain
+//         int N = edges1.size() + 1;
+
+//         vector<int> result1 = findCount(edges1, k); //stores targetnodes count from each node within tree1 within k distance
+//         vector<int> result2 = findCount(edges2, k-1); //stores targetnodes count from each node within tree2 within k-1 distance
+
+//         int maxTargetNodesCount = *max_element(begin(result2), end(result2));
+        
+//         for(int i = 0; i < result1.size(); i++) {
+//             result1[i] += maxTargetNodesCount;
+//         }
+
+//         return result1;
+//     }
+// };

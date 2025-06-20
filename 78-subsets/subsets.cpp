@@ -34,7 +34,6 @@ public:
     }
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>>result;
-        vector<int>temp;
         solve(0, nums, {}, result);
         return result;
     }

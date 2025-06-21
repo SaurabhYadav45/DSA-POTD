@@ -1,46 +1,37 @@
 // class Solution {
 // public:
+//     int n;
+//     vector<vector<int>>result;
 
-//     void permuteUniqueHelper(vector<int>& nums,vector<vector<int>>&ans, int start){
-//         // Base Case
-//         if(start >=nums.size()){
-//             ans.push_back(nums);
+//     void solve(unordered_map<int, int>&mp, vector<int>temp){
+//         if(temp.size() == n){
+//             result.push_back(temp);
 //             return;
 //         }
-        
-//         unordered_map<int,bool>visited;
-//         for(int i=start; i<nums.size(); i++){
-            
-//             if(visited.find(nums[i]) != visited.end()){
-//                 continue;
+
+//         for(auto&[num, count]: mp){
+//             if(count > 0){
+//                 temp.push_back(num);
+//                 mp[num]--;
+//                 solve(mp, temp);
+//                 // Backtracking
+//                 temp.pop_back();
+//                 mp[num]++;
 //             }
-//             visited[nums[i]] = true;
-//             swap(nums[i],nums[start]);
-//             permuteUniqueHelper(nums, ans, start+1);
-//             //  Backtracking
-//              swap(nums[i],nums[start]); 
 //         }
 //     }
 //     vector<vector<int>> permuteUnique(vector<int>& nums) {
-//         vector<vector<int>>ans;
-//         permuteUniqueHelper(nums, ans,0);
+//         unordered_map<int, int>mp;
+//         n = nums.size();
+//         for(int&num: nums){
+//             mp[num]++;
+//         }
 
-
-//         // set<vector<int>>st;
-//         // for(auto e:ans){
-//         //     st.insert(e);
-//         // }
-//         // ans.clear();
-
-//         // for(auto e: st){
-//         //     ans.push_back(e);
-//         // }
-
-
-//         return ans;
+//         vector<int>temp;
+//         solve(mp, temp);
+//         return result;
 //     }
 // };
-
 
 
 
@@ -50,32 +41,29 @@ public:
     int n;
     vector<vector<int>>result;
 
-    void solve(unordered_map<int, int>&mp, vector<int>temp){
-        if(temp.size() == n){
-            result.push_back(temp);
+    void solve(int start, vector<int>& nums){
+        if(start >= n){
+            result.push_back(nums);
             return;
         }
 
-        for(auto&[num, count]: mp){
-            if(count > 0){
-                temp.push_back(num);
-                mp[num]--;
-                solve(mp, temp);
-                // Backtracking
-                temp.pop_back();
-                mp[num]++;
+         unordered_set<int>st;
+        for(int i=start; i<n; i++){
+            if(st.find(nums[i]) != st.end()){
+                continue;
             }
+            st.insert(nums[i]);
+            swap(nums[i], nums[start]);
+            solve(start+1, nums);
+            //Backtracking
+            swap(nums[i], nums[start]);
+            // st.erase(nums[i]);
         }
     }
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        unordered_map<int, int>mp;
         n = nums.size();
-        for(int&num: nums){
-            mp[num]++;
-        }
-
-        vector<int>temp;
-        solve(mp, temp);
+        
+        solve(0, nums);
         return result;
     }
 };

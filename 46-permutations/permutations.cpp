@@ -29,7 +29,7 @@ public:
     vector<vector<int>>result;
     int n;
 
-    void solve(vector<int>&nums, vector<int>curr, unordered_set<int>st){
+    void solve(vector<int>&nums, vector<int>&curr, unordered_set<int>&st){
         if(curr.size() == n){
             result.push_back(curr);
             return;

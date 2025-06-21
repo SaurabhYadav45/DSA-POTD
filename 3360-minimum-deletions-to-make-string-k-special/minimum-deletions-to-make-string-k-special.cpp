@@ -10,10 +10,10 @@ public:
             st.insert(ch);
         }
 
-        for(char ch :st){
+        for(auto& ch :st){
             int freq_i = mp[ch];
             int delete_freq = 0;
-            for(char ch2 : st){
+            for(auto& ch2 : st){
                 if(ch == ch2)continue;
 
                 int freq_j = mp[ch2];

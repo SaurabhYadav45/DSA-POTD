@@ -55,7 +55,7 @@
 class Solution {
 public:
     vector<string>ans;
-    void solve(string curr, int n, int open, int close){
+    void solve(string& curr, int n, int open, int close){
         if(curr.length() == 2*n){
             ans.push_back(curr);
         }

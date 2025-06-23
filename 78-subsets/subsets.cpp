@@ -20,7 +20,7 @@
 
 class Solution {
 public:
-    void solve(int i, vector<int>&nums, vector<int>curr, vector<vector<int>>&result){
+    void solve(int i, vector<int>&nums, vector<int>&curr, vector<vector<int>>&result){
         if(i >= nums.size()){
             result.push_back(curr);
             return;
@@ -34,7 +34,8 @@ public:
     }
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>>result;
-        solve(0, nums, {}, result);
+        vector<int>temp;
+        solve(0, nums, temp, result);
         return result;
     }
 };
@@ -46,7 +47,7 @@ public:
 
 //     //  T.C = 2^n
 //     // S.C = O(n)
-//     // Stacl space = O(n)
+//     // Stack space = O(n)
 
 //     void subsetFinder(vector<int>& nums, vector<vector<int>>&ans, vector<int>&path , int i){
 //         // Base Case

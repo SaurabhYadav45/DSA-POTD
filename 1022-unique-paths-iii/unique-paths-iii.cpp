@@ -2,7 +2,7 @@ class Solution {
 public:
     int m;
     int n;
-    int result ;
+    int result =0;
     vector<vector<int>>directions{{0,1}, {0,-1}, {1,0}, {-1,0}};
     void solve(int i, int j, int count, vector<vector<int>>& grid, int nonObstacle){
         //Base case
@@ -28,12 +28,12 @@ public:
         }
         
         grid[i][j] = temp;
+        count--;
     }
     int uniquePathsIII(vector<vector<int>>& grid) {
         m = grid.size();
         n = grid[0].size();
         int nonObstacle = 0;
-        result = 0;
         int x = 0;
         int y = 0;
 

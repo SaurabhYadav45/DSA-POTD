@@ -2,7 +2,7 @@ class Solution {
 public:
     int n;
     vector<vector<string>>result;
-    bool isPalindrome(int i, int j, string s){
+    bool isPalindrome(int i, int j, string& s){
         while(i <= j){
             if(s[i] != s[j]){
                 return false;
@@ -12,7 +12,7 @@ public:
         }
         return true;
     }
-    void solve(string s, vector<string>&curr, int idx){
+    void solve(string& s, vector<string>&curr, int idx){
         if(idx >= n){
             result.push_back(curr);
             return;

@@ -3,7 +3,7 @@ public:
     int n;
     vector<vector<int>>result;
     set<vector<int>> st;
-    void solve(vector<int>&nums, vector<int>temp, int i){
+    void solve(vector<int>&nums, vector<int>&temp, int i){
         if(i == n){
             if(temp.size() >= 2){
                 st.insert(temp);

@@ -32,7 +32,7 @@
 class Solution {
 public:
     int n;
-    void solve(string s, int idx, int count, int& maxCount, unordered_set<string>&st){
+    void solve(string& s, int idx, int& count, int& maxCount, unordered_set<string>&st){
         if(idx >= n){
             maxCount = max(maxCount, count);
             return;

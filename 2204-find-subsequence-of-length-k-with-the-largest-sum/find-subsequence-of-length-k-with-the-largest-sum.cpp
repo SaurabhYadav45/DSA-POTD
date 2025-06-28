@@ -13,14 +13,18 @@ public:
         }
 
         sort(pairs.rbegin(), pairs.rend());
-        vector<pair<int, int>>temp;
-        for(int i=0; i<k; i++){
-            temp.push_back(pairs[i]);
-        }
+        sort(pairs.begin(), pairs.begin()+k, myComp);
+        // vector<pair<int, int>>temp;
+        // for(int i=0; i<k; i++){
+        //     temp.push_back(pairs[i]);
+        // }
 
-        sort(temp.begin(), temp.end(), myComp);
-        for(auto& p : temp){
-            result.push_back(p.first);
+        // sort(temp.begin(), temp.end(), myComp);
+        // for(auto& p : temp){
+        //     result.push_back(p.first);
+        // }
+        for(int i=0; i<k; i++){
+            result.push_back(pairs[i].first);
         }
         return result;
     }

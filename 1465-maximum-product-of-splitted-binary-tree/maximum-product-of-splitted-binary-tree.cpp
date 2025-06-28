@@ -10,6 +10,7 @@
  * };
  */
 
+//                                   Optimized soln
 class Solution {
 public:
     long long maximumProduct;
@@ -25,7 +26,8 @@ public:
         long long left = solve(root->left, totalSum);
         long long right = solve(root->right, totalSum);
         long long sum = left + right + root->val;
-        maximumProduct = max(maximumProduct, sum*(totalSum-sum));
+        long long product = sum*(totalSum - sum);
+        maximumProduct = max(maximumProduct, product);
         return sum;
     }
     int maxProduct(TreeNode* root) {
@@ -38,7 +40,8 @@ public:
 };
 
 
-
+//                                       BRute Force 
+//                                    Time Limit Exceeded
 
 // class Solution {
 // public:
@@ -56,7 +59,7 @@ public:
 //         long long rightSubtreeSum = calculateTotalSum(root->right);
 //         long long leftSum = (leftSubtreeSum)*(totalSum-leftSubtreeSum);
 //         long long rightSum = (rightSubtreeSum)*(totalSum-rightSubtreeSum);
-//         maximumProduct = max(maximumProduct, max(leftSum, rightSum)) % MOD;
+//         maximumProduct = max(maximumProduct, max(leftSum, rightSum));
 //         solve(root->left, totalSum);
 //         solve(root->right, totalSum);
 //     }
@@ -65,7 +68,7 @@ public:
 //         maximumProduct = -1;
 //         totalSum = calculateTotalSum(root);
 //         solve(root, totalSum);
-//         return maximumProduct;
+//         return maximumProduct % MOD;
 //     }
 // };
 

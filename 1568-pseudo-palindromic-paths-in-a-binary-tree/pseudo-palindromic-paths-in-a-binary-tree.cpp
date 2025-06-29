@@ -12,39 +12,65 @@
 
 //                    ****************** Optimized ***********
 
+// class Solution {
+// public:
+//     bool checkPalindrome(vector<int>&currFreq){
+//         int oddCount = 0;
+//         for(int i=1; i<=9; i++){
+//             if(currFreq[i] == 0) continue;
+//             if(currFreq[i] % 2 != 0){
+//                 oddCount++;
+//             }
+//         }
+//         if(oddCount > 1){
+//             return false;
+//         }
+//         return true;
+//     }
+//     void solve(TreeNode* root, vector<int>&currFreq, int& result){
+//         if(root == NULL) return ;
+
+//         currFreq[root->val]++;
+//         if(root->left == NULL && root->right == NULL){
+//             if(checkPalindrome(currFreq)){
+//                 result++;
+//             }
+//         }
+//         solve(root->left, currFreq, result);
+//         solve(root->right, currFreq, result);
+//         // Backtrack
+//         currFreq[root->val]--;
+//     }
+//     int pseudoPalindromicPaths (TreeNode* root) {
+//         vector<int>currFreq(10, 0);
+//         int result = 0;
+//         solve(root, currFreq, result);
+//         return result;
+//     }
+// };
+
+
+//                     ***************** BitMasking ****************
+
 class Solution {
 public:
-    bool checkPalindrome(vector<int>&currFreq){
-        int oddCount = 0;
-        for(int i=1; i<=9; i++){
-            if(currFreq[i] == 0) continue;
-            if(currFreq[i] % 2 != 0){
-                oddCount++;
-            }
-        }
-        if(oddCount > 1){
-            return false;
-        }
-        return true;
-    }
-    void solve(TreeNode* root, vector<int>&currFreq, int& result){
+    void solve(TreeNode* root, int count, int& result){
         if(root == NULL) return ;
 
-        currFreq[root->val]++;
+        count ^= (1 << root->val);
         if(root->left == NULL && root->right == NULL){
-            if(checkPalindrome(currFreq)){
+            if((count & (count-1)) == 0){
                 result++;
             }
+            return;
         }
-        solve(root->left, currFreq, result);
-        solve(root->right, currFreq, result);
-        // Backtrack
-        currFreq[root->val]--;
+        solve(root->left, count, result);
+        solve(root->right, count, result);
     }
     int pseudoPalindromicPaths (TreeNode* root) {
-        vector<int>currFreq(10, 0);
         int result = 0;
-        solve(root, currFreq, result);
+        int count = 0;
+        solve(root, count, result);
         return result;
     }
 };

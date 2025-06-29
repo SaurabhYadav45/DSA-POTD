@@ -32,7 +32,9 @@ public:
         findStartNode(root->right, start, target);
     }
     int amountOfTime(TreeNode* root, int start) {
-        
+        if(root->left == NULL && root->right == NULL){
+            return 0;
+        }
         // to keep track of child to parent edge
         unordered_map<TreeNode*, TreeNode*>mp;
         create_child_to_parent_edge(root, mp);

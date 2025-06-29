@@ -27,7 +27,7 @@ public:
         }
         return true;
     }
-    void solve(TreeNode* root, vector<int>currFreq, int& result){
+    void solve(TreeNode* root, vector<int>&currFreq, int& result){
         if(root == NULL) return ;
 
         currFreq[root->val]++;
@@ -38,6 +38,8 @@ public:
         }
         solve(root->left, currFreq, result);
         solve(root->right, currFreq, result);
+        // Backtrack
+        currFreq[root->val]--;
     }
     int pseudoPalindromicPaths (TreeNode* root) {
         vector<int>currFreq(10, 0);

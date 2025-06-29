@@ -11,17 +11,13 @@
  */
 class Solution {
 public:
-    int result = 0;
-    pair<int, int>solve(TreeNode* root, int nodeCount, int sum){
+    pair<int, int>solve(TreeNode* root, int nodeCount, int sum, int& result){
         if(root == NULL) return {0, 0};
-        pair<int, int>left = solve(root->left, nodeCount, sum);
-        pair<int, int>right = solve(root->right, nodeCount, sum);
-        int leftCount = left.first;
-        int leftSum = left.second;
-        int rightCount = right.first;
-        int rightSum = right.second;
-        int n = leftCount + rightCount + 1;
-        int currSum = leftSum + rightSum + root->val;
+        pair<int, int>left = solve(root->left, nodeCount, sum, result);
+        pair<int, int>right = solve(root->right, nodeCount, sum, result);
+    
+        int n = left.first + right.first + 1;
+        int currSum = left.second + right.second + root->val;
         if((currSum / n) == root->val){
             result++;
         }
@@ -31,7 +27,8 @@ public:
         if(root->left == NULL && root->right == NULL){
             return 1;
         }
-        solve(root, 0, 0);
+        int result = 0;
+        solve(root, 0, 0, result);
         return result;
     }
 };

@@ -18,60 +18,23 @@
     //     inorder(root->right, ans);
     // }
 
-    // MORRIS TRAVERSAL
-
-//     vector<int> morrisTraversal(TreeNode*root){
-//         vector<int>ans;
-//         TreeNode*curr = root;
-//         while(curr){
-//             if(curr->left == NULL){
-//                 ans.push_back(curr->val);
-//                 curr = curr->right;
-//             }
-//             else{
-//                 TreeNode* pred = curr->left;
-//                 while(pred->right != curr && pred->right){
-//                     pred = pred->right;
-//                 }
-
-//                 if(pred->right == NULL){
-//                     pred->right = curr;
-//                     curr = curr->left;
-//                 }
-//                 else{
-//                     pred->right = NULL;
-//                     ans.push_back(curr->val);
-//                     curr = curr->right;
-//                 }
-//             }
-//         }
-//         return ans;
-//     }
-
-//     vector<int> inorderTraversal(TreeNode* root) {
-//         vector<int>ans;
-//         // inorder(root, ans);
-//         ans = morrisTraversal(root);
-//         return ans;
-//     }
-// };
 
 
+//           *************** MORRIS TRAVERSAL *****************
 
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int>result;
         TreeNode*curr = root;
-        TreeNode*prev ;
+
         while(curr!= NULL){
             if(curr->left == NULL){
                 result.push_back(curr->val);
                 curr = curr->right;
             }
             else{
-                // curr->left !=  NULL
-                prev = curr->left;
+                TreeNode*prev = curr->left;
                 while(prev->right !=  NULL){
                     prev = prev->right;
                 }

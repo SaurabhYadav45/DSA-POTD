@@ -7,15 +7,14 @@ public:
             mp[num]++;
         }
 
-        unordered_set<int>st(nums.begin(), nums.end());
+        sort(nums.begin(), nums.end());
 
-        for(int& num : nums){
-            int minCount = mp[num];
-            if(st.find(num+1) == st.end()){
-                continue;
+        for(int i=0; i<nums.size()-1; i++){
+            int mini = nums[i];
+            int maxi = nums[i+1];
+            if(maxi - mini == 1){
+                result = max(result, mp[mini] + mp[maxi]);
             }
-            int maxCount = mp[num+1];
-            result = max(result, minCount + maxCount);
         }
         return result;
     }

@@ -9,59 +9,103 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+//             *********************** Using BFS ***********************
+
+// class Solution {
+// public:
+//     void createGraph(TreeNode* root, TreeNode*prev, unordered_map<TreeNode*, vector<TreeNode*>>&adj, unordered_set<TreeNode*>&leafNode){
+//         if(root == NULL) return ;
+//         if(!root->left && !root->right){
+//             leafNode.insert(root);
+//         }
+        
+//         if(prev != NULL){
+//             adj[prev].push_back(root);
+//             adj[root].push_back(prev);
+//         }
+//         createGraph(root->left, root, adj, leafNode);
+//         createGraph(root->right,root, adj, leafNode);
+//     }
+//     int countPairs(TreeNode* root, int distance) {
+//         unordered_map<TreeNode*, vector<TreeNode*>>adj;
+//         unordered_set<TreeNode*>leafNode;
+
+//         createGraph(root,NULL, adj, leafNode);
+
+//         int count = 0;
+
+//         for(auto& leaf: leafNode){
+//             queue<TreeNode*>q;
+//             unordered_set<TreeNode*>st;
+//             q.push(leaf);
+//             st.insert(leaf);
+            
+//             for(int level=0; level<=distance; level++){
+//                 int size = q.size();
+//                 while(size--){
+//                     TreeNode*node = q.front();
+//                     q.pop();
+
+//                     if(node != leaf && leafNode.count(node)){
+//                         count++;
+//                     }
+//                     for(auto& nbr : adj[node]){
+//                         if(!st.count(nbr)){
+//                             q.push(nbr);
+//                             st.insert(nbr);
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         return count/2;
+//     }
+// };
+
+
+//             *********************** Using BFS ***********************
+
 class Solution {
 public:
-    void createGraph(TreeNode* root, TreeNode*prev, unordered_map<TreeNode*, vector<TreeNode*>>&adj, unordered_set<TreeNode*>&leafNode){
-        if(root == NULL) return ;
-        if(!root->left && !root->right){
-            leafNode.insert(root);
+    vector<int>solve(TreeNode* root, int distance, int& goodCount){
+        if(root == NULL) return {0};
+
+        if(root->left == NULL && root->right == NULL){
+            return {1};
         }
-        
-        if(prev != NULL){
-            adj[prev].push_back(root);
-            adj[root].push_back(prev);
-        }
-        createGraph(root->left, root, adj, leafNode);
-        createGraph(root->right,root, adj, leafNode);
-    }
-    int countPairs(TreeNode* root, int distance) {
-        unordered_map<TreeNode*, vector<TreeNode*>>adj;
-        unordered_set<TreeNode*>leafNode;
 
-        createGraph(root,NULL, adj, leafNode);
+        vector<int>left = solve(root->left, distance, goodCount);
+        vector<int>right = solve(root->right, distance, goodCount);
 
-        int count = 0;
-
-        for(auto& leaf: leafNode){
-            queue<TreeNode*>q;
-            unordered_set<TreeNode*>st;
-            q.push(leaf);
-            st.insert(leaf);
-            
-            for(int level=0; level<=distance; level++){
-                int size = q.size();
-                while(size--){
-                    TreeNode*node = q.front();
-                    q.pop();
-
-                    if(node != leaf && leafNode.count(node)){
-                        count++;
-                    }
-                    for(auto& nbr : adj[node]){
-                        if(!st.count(nbr)){
-                            q.push(nbr);
-                            st.insert(nbr);
-                        }
-                    }
+        for(int& l : left){
+            for(int& r: right){
+                if(l != 0 && r != 0 && l + r <= distance){
+                    goodCount++;
                 }
             }
         }
-        return count/2;
+
+        vector<int>goodPath;
+        for(int& l : left){
+            if(l != 0 && l + 1 <= distance){
+                goodPath.push_back(l+1);
+            }
+        }
+
+        for(int& r : right){
+            if(r != 0 && r + 1 <= distance){
+                goodPath.push_back(r+1);
+            }
+        }
+
+        return goodPath;
+    }
+    int countPairs(TreeNode* root, int distance) {
+        int goodCount = 0;
+        solve(root, distance, goodCount);
+        return goodCount;
     }
 };
-
-
-
 
 
 

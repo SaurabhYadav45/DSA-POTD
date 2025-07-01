@@ -34,11 +34,11 @@ public:
                 curr = curr->right;
             }
             else{
-                TreeNode*prev = curr->left;
-                while(prev->right !=  NULL){
-                    prev = prev->right;
+                TreeNode*pre = curr->left;
+                while(pre->right !=  NULL){
+                    pre = pre->right;
                 }
-                prev->right = curr;
+                pre->right = curr;
                 TreeNode* temp = curr;
                 curr = curr->left;
                 temp->left = NULL;

@@ -5,7 +5,7 @@ public:
         vector<long long>pSum(n, 0);
         pSum[n-1] = shifts[n-1];
         for(int i=n-2; i>=0; i--){
-            pSum[i] = (long long)pSum[i+1] + shifts[i];
+            pSum[i] = pSum[i+1] + shifts[i];
         }
 
         for(int i=0; i<n; i++){

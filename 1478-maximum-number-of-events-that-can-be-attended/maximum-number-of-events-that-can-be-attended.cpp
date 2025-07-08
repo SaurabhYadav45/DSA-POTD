@@ -9,6 +9,9 @@ public:
     
         int i = 0;
         while(!pq.empty() || i < n){
+            if(pq.empty()){
+                day = events[i][0];
+            }
             while(i < n && events[i][0] == day){
                 pq.push(events[i][1]);
                 i++;

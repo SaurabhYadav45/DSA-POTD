@@ -2,27 +2,29 @@ class Solution {
 public:
     int maxEvents(vector<vector<int>>& events) {
         int n = events.size();
-        int maxDay = 0;
-        for (int i = 0; i < events.size(); i++) {
-            maxDay = max(maxDay, events[i][1]);
-        }
-        priority_queue<int, vector<int>, greater<>> pq;
         sort(events.begin(), events.end());
-        int ans = 0;
-        for (int i = 0, j = 0; i <= maxDay; i++) {
-            while (j < n && events[j][0] <= i) {
-                pq.emplace(events[j][1]);
-                j++;
+        int count = 0;
+        int day = events[0][0];
+        priority_queue<int, vector<int>, greater<int>>pq;
+    
+        int i = 0;
+        while(!pq.empty() || i < n){
+            while(i < n && events[i][0] == day){
+                pq.push(events[i][1]);
+                i++;
             }
-            while (!pq.empty() && pq.top() < i) {
+
+            if(!pq.empty()){
+                count++;
                 pq.pop();
             }
-            if (!pq.empty()) {
+
+            day++;
+
+            while(!pq.empty() && pq.top() < day){
                 pq.pop();
-                ans++;
             }
         }
-
-        return ans;
+        return count;
     }
 };

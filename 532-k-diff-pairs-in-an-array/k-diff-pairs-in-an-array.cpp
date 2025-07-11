@@ -30,74 +30,75 @@
 //                 ans.insert({nums[i], nums[i] + k});
 //             }
 //         }
-//         return ans.size();
-
-//         // METHOD -1 : Two Pointer Approach
-
-//         // sort(nums.begin(), nums.end());
-
-//         // int i=0;
-//         // int j=1;
-//         // // int count=0;
-//         // int diff;
-//         // int n = nums.size();
-//         // set<pair<int, int>>ans;
-        
-//         // while(j < n){
-//         //      diff = nums[j] - nums[i];
-            
-//         //     if(diff == k){
-//         //         ans.insert({nums[i], nums[j]});
-//         //         i++;
-//         //         j++;
-//         //     }
-//         //     else if(diff > k){
-//         //         i++;
-//         //     }
-//         //     else{
-//         //         j++;
-//         //     }
-//         //     if(i == j){
-//         //         j++;
-//         //     }
-//         // }
-//         // // return count;
-//         // return ans.size();
-
-        
+//         return ans.size();   
 //     }
 // };
+
+
+class Solution {
+public:
+    bool binarySearch(vector<int>& nums, int target, int l){
+        int n = nums.size();
+        int r = n-1;
+        while(l <= r){
+            int mid = l + (r-l)/2;
+            if(nums[mid] == target) return true;
+            else if(nums[mid] < target){
+                l = mid+1;
+            }
+            else{
+                r  = mid-1;
+            }
+        }
+        return false;
+    }
+    int findPairs(vector<int>& nums, int k) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        int count = 0;
+
+        for(int i=0; i<n; i++){
+            if(i != 0 && nums[i] == nums[i-1]) continue;
+            int target = nums[i] +  k;
+            if(binarySearch(nums, target, i+1)){
+                count++;
+            }
+        }
+        return count;
+    }
+};
+
 
 
 
 //             ************** Two Pointer **************
 
-class Solution {
-public:
-    int findPairs(vector<int>& nums, int k) {
-        int n = nums.size();
-        sort(nums.begin(), nums.end());
+// class Solution {
+// public:
+//     int findPairs(vector<int>& nums, int k) {
+//         int n = nums.size();
+//         sort(nums.begin(), nums.end());
 
-        int i=0, j = 1;
-        set<pair<int, int>>st;
-        while(j < n){
-            if(i == j){
-                j++; // edge case
-                continue;
-            }
+//         int i=0, j = 1;
+//         set<pair<int, int>>st;
+//         while(j < n){
+//             if(i == j){
+//                 j++; // edge case
+//                 continue;
+//             }
 
-            int diff = abs(nums[j] - nums[i]);
-            if(diff == k){
-                st.insert({nums[i], nums[j]});
-                i++; j++;
-            }
-            else if(diff < k){
-                j++;
-            }
-            else{
-                i++; // diff > k
-            }
-        }
-        return st.size();
-    }
-};
+//             int diff = abs(nums[j] - nums[i]);
+//             if(diff == k){
+//                 st.insert({nums[i], nums[j]});
+//                 i++; j++;
+//             }
+//             else if(diff < k){
+//                 j++;
+//             }
+//             else{
+//                 i++; // diff > k
+//             }
+//         }
+//         return st.size();
+//     }
+// };

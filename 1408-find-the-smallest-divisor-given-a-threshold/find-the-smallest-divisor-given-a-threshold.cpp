@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isPossible(vector<int>& nums, int threshold, int divisor){
+    bool isPossible(vector<int>& nums, int& threshold, int& divisor){
         int sum = 0;
         for(int& num: nums){
             sum += ceil((float)num/divisor);

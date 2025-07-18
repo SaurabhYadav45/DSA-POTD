@@ -30,15 +30,50 @@
 //     }
 // };
 
+
+
 class Solution {
 public:
+    bool isPossible(vector<int>& arr, int mid){
+        vector<long long>nums(arr.begin(), arr.end());
+        int n = nums.size();
+        for (int i = 0; i < n - 1; i++) {
+            if (nums[i] > mid) {
+                return false;
+            }
+            long long reduce = mid - nums[i];
+            nums[i + 1] -= reduce;
+        }
+        return nums[n-1] <= mid;
+    }
     int minimizeArrayValue(vector<int>& nums) {
-        long long sum = 0;
+        int low = 1;
+        int high = *max_element(nums.begin(), nums.end());
+
         int result = 0;
-        for (int i = 0; i < nums.size(); ++i) {
-            sum += nums[i];
-            result = max(result, (int)((sum + i) / (i + 1)));
+        while(low <= high){
+            int mid = low + (high-low)/2;
+            if(isPossible(nums, mid)){
+                result = mid;
+                high = mid-1;
+            }
+            else{
+                low = mid+1;
+            }
         }
         return result;
     }
 };
+
+// class Solution {
+// public:
+//     int minimizeArrayValue(vector<int>& nums) {
+//         long long sum = 0;
+//         int result = 0;
+//         for (int i = 0; i < nums.size(); ++i) {
+//             sum += nums[i];
+//             result = max(result, (int)((sum + i) / (i + 1)));
+//         }
+//         return result;
+//     }
+// };

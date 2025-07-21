@@ -19,7 +19,9 @@ public:
                 if(w >= diff){
                     maxProfit = max(maxProfit, profit);
                 }
-                
+                else{
+                    break;
+                }
             }
             result += maxProfit;
         }

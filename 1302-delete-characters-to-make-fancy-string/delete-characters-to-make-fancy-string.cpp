@@ -1,36 +1,43 @@
-// class Solution {
-// public:
-//     string makeFancyString(string s) {
-//         string result = "";
-//         for(char&ch : s){
-            
-//         }
-//     }
-// };
-
-
-
-
-
 class Solution {
 public:
     string makeFancyString(string s) {
-        // If size of string is less than 3, return it.
-        if (s.length() < 3) {
-            return s;
-        }
-        int j = 2;
-        for (int i = 2; i < s.size(); ++i) {
-            // If the current character is not equal to the previously inserted
-            // two characters, then we can add it to the string.
-            if (s[i] != s[j - 1] || s[i] != s[j - 2]) {
-                s[j++] = s[i];
+        if(s.length() < 3) return s;
+        string result = "";
+        for(int i=0; i<s.length(); i++){
+            if(result.size() >= 2){
+                if(s[i] == result.back() && s[i] == result[result.size()-2]){
+                    continue;
+                }
             }
+            result.push_back(s[i]);
         }
-
-        // Resize the string to the number of characters added in the string,
-        // given by j.
-        s.resize(j);
-        return s;
+        return result;
     }
 };
+
+
+
+
+
+// class Solution {
+// public:
+//     string makeFancyString(string s) {
+//         // If size of string is less than 3, return it.
+//         if (s.length() < 3) {
+//             return s;
+//         }
+//         int j = 2;
+//         for (int i = 2; i < s.size(); ++i) {
+//             // If the current character is not equal to the previously inserted
+//             // two characters, then we can add it to the string.
+//             if (s[i] != s[j - 1] || s[i] != s[j - 2]) {
+//                 s[j++] = s[i];
+//             }
+//         }
+
+//         // Resize the string to the number of characters added in the string,
+//         // given by j.
+//         s.resize(j);
+//         return s;
+//     }
+// };

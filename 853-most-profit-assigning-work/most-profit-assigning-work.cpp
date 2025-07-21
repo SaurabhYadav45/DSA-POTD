@@ -13,14 +13,15 @@ public:
         int result = 0;
         for(int& w : worker){
             int maxProfit = 0;
-            for(auto& pair: pairs){
-                int diff = pair.first;
-                int profit = pair.second;
-                if(w >= diff){
-                    maxProfit = max(maxProfit, profit);
+            int l = 0, r = pairs.size()-1;
+            while(l <= r){
+                int mid = l + (r-l)/2;
+                if(w >= pairs[mid].first){
+                    maxProfit = max(maxProfit, pairs[mid].second);
+                    l = mid+1;
                 }
                 else{
-                    break;
+                    r = mid-1;
                 }
             }
             result += maxProfit;

@@ -1,32 +1,54 @@
+// class Solution {
+// public:
+//     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
+//         vector<pair<int, int>>pairs;
+//         for(int i=0; i<profit.size(); i++){
+//             pairs.push_back({difficulty[i], profit[i]});
+//         }
+//         sort(pairs.begin(), pairs.end());
+//         for(int i=1; i<pairs.size(); i++){
+//             pairs[i].second = max(pairs[i].second, pairs[i-1].second);
+//         }
+
+//         int result = 0;
+//         for(int& w : worker){
+//             int maxProfit = 0;
+//             int l = 0, r = pairs.size()-1;
+//             while(l <= r){
+//                 int mid = l + (r-l)/2;
+//                 if(w >= pairs[mid].first){
+//                     maxProfit = max(maxProfit, pairs[mid].second);
+//                     l = mid+1;
+//                 }
+//                 else{
+//                     r = mid-1;
+//                 }
+//             }
+//             result += maxProfit;
+//         }
+//         return result;
+//     }
+// };
+
 class Solution {
 public:
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-        vector<pair<int, int>>pairs;
+        priority_queue<pair<int, int>>pq;
         for(int i=0; i<profit.size(); i++){
-            pairs.push_back({difficulty[i], profit[i]});
+            pq.push({profit[i], difficulty[i]});
         }
-        sort(pairs.begin(), pairs.end());
-        for(int i=1; i<pairs.size(); i++){
-            pairs[i].second = max(pairs[i].second, pairs[i-1].second);
-        }
-
-        int result = 0;
+        sort(worker.rbegin(), worker.rend());
+    
+        int totalProfit = 0;
         for(int& w : worker){
-            int maxProfit = 0;
-            int l = 0, r = pairs.size()-1;
-            while(l <= r){
-                int mid = l + (r-l)/2;
-                if(w >= pairs[mid].first){
-                    maxProfit = max(maxProfit, pairs[mid].second);
-                    l = mid+1;
-                }
-                else{
-                    r = mid-1;
-                }
+            while(!pq.empty() && pq.top().second > w){
+                pq.pop();
             }
-            result += maxProfit;
+            if (!pq.empty()) {
+                totalProfit += pq.top().first;
+            }
         }
-        return result;
+        return totalProfit;
     }
 };
 

@@ -8,15 +8,16 @@ public:
         int i=0, j=0;
         while(j < n){
             while(st.find(nums[j]) != st.end()){
+                result = max(result, sum);
                 sum -= nums[i];
                 st.erase(nums[i]);
                 i++;
             }
             sum += nums[j];
             st.insert(nums[j]);
-            result = max(result, sum);
             j++;
         }
+        result = max(result, sum);
         return result;
     }
 };

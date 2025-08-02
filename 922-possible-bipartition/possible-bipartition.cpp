@@ -1,40 +1,40 @@
-class Solution {
-public:
-    bool dfs(int i, unordered_map<int, vector<int>>&adj, vector<int>&color, int currColor){
-        color[i] = currColor;
+// class Solution {
+// public:
+//     bool dfs(int i, unordered_map<int, vector<int>>&adj, vector<int>&color, int currColor){
+//         color[i] = currColor;
 
-        for(auto& nbr: adj[i]){
-            if(color[i] == color[nbr]) return false;
+//         for(auto& nbr: adj[i]){
+//             if(color[i] == color[nbr]) return false;
 
-            if(color[nbr] == -1){
-                if(dfs(nbr, adj, color, 1-currColor) == false){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
-        unordered_map<int, vector<int>>adj;
-        for(auto& edge: dislikes){
-            int u = edge[0];
-            int v = edge[1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
+//             if(color[nbr] == -1){
+//                 if(dfs(nbr, adj, color, 1-currColor) == false){
+//                     return false;
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+//     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+//         unordered_map<int, vector<int>>adj;
+//         for(auto& edge: dislikes){
+//             int u = edge[0];
+//             int v = edge[1];
+//             adj[u].push_back(v);
+//             adj[v].push_back(u);
+//         }
 
-        vector<int>color(n+1, -1);
-        for(int i=1; i<=n; i++){
-            if(color[i] == -1){
-                int currColor = 1;
-                if(dfs(i, adj, color, currColor) == false){
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-};
+//         vector<int>color(n+1, -1);
+//         for(int i=1; i<=n; i++){
+//             if(color[i] == -1){
+//                 int currColor = 1;
+//                 if(dfs(i, adj, color, currColor) == false){
+//                     return false;
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+// };
 
 
 //            ****************** Using BFS *******************
@@ -86,47 +86,51 @@ public:
 
 
 
-// class Solution {
-// public:
-//     int find(int i, vector<int>&parent){
-//         if(i == parent[i]) return i;
-//         return parent[i] = find(parent[i], parent);
-//     }
+class Solution {
+public:
+    int find(int i, vector<int>&parent){
+        if(i == parent[i]) return i;
+        return parent[i] = find(parent[i], parent);
+    }
 
-//     void unionSet(int x, int y, vector<int>&parent, vector<int>&rank){
-//         int parent_x = find(x, parent);
-//         int parent_y = find(y, parent);
+    void unionSet(int x, int y, vector<int>&parent, vector<int>&rank){
+        int parent_x = find(x, parent);
+        int parent_y = find(y, parent);
 
-//         if(parent_x == parent_y){
-//             return;
-//         }
+        if(parent_x == parent_y){
+            return;
+        }
 
-//         if(rank[parent_x] > rank[parent_y]){
-//             parent[parent_y] = parent_x;
-//         }
-//         else if(rank[parent_y] > rank[parent_x]){
-//             parent[parent_x] = parent_y;
-//         }
-//         else{
-//             parent[parent_y] = parent_x;
-//             rank[parent_x]++;
-//         }
-//     }
-//     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
-//         vector<int>rank(n+1, 1);
-//         vector<int>parnet(n+1);
-//         for(int i=0; i<=n; i++){
-//             parent[i] = i;
-//         }
+        if(rank[parent_x] > rank[parent_y]){
+            parent[parent_y] = parent_x;
+        }
+        else if(rank[parent_y] > rank[parent_x]){
+            parent[parent_x] = parent_y;
+        }
+        else{
+            parent[parent_y] = parent_x;
+            rank[parent_x]++;
+        }
+    }
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<int>rank(2*n+1, 1);
+        vector<int>parent(2*n+1);
+        for(int i=1; i<=2*n; i++){
+            parent[i] = i;
+        }
 
-//         for(auto& dislike: dislikes){
-//             int x = dislike[0];
-//             int y = dislike[1];
+        for(auto& dislike: dislikes){
+            int x = dislike[0];
+            int y = dislike[1];
 
-//             int parent_x = find(x, parent);
-//             int parent_y = find(y, parent);
+            int parent_x = find(x, parent);
+            int parent_y = find(y, parent);
 
-//             if(parent_x )
-//         }
-//     }
-// };
+            if(parent_x == parent_y) return false;
+
+            unionSet(x, y+n, parent, rank);
+            unionSet(x+n, y, parent, rank);
+        }
+        return true;
+    }
+};

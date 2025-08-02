@@ -1,22 +1,14 @@
 class Solution {
 public:
-    bool bfs(int i, unordered_map<int, vector<int>>&adj, vector<int>&color){
-        queue<int>q;
-        q.push(i);
-        color[i] = 1;
+    bool dfs(int i, unordered_map<int, vector<int>>&adj, vector<int>&color, int currColor){
+        color[i] = currColor;
 
-        while(!q.empty()){
-            int node = q.front();
-            q.pop();
+        for(auto& nbr: adj[i]){
+            if(color[i] == color[nbr]) return false;
 
-            for(auto& nbr: adj[node]){
-                if(color[node] == color[nbr]){
+            if(color[nbr] == -1){
+                if(dfs(nbr, adj, color, 1-currColor) == false){
                     return false;
-                }
-
-                if(color[nbr] == -1){
-                    q.push(nbr);
-                    color[nbr] = 1 - color[node];
                 }
             }
         }
@@ -34,7 +26,8 @@ public:
         vector<int>color(n+1, -1);
         for(int i=1; i<=n; i++){
             if(color[i] == -1){
-                if(bfs(i, adj, color) == false){
+                int currColor = 1;
+                if(dfs(i, adj, color, currColor) == false){
                     return false;
                 }
             }
@@ -42,6 +35,54 @@ public:
         return true;
     }
 };
+
+
+//            ****************** Using BFS *******************
+
+// class Solution {
+// public:
+//     bool bfs(int i, unordered_map<int, vector<int>>&adj, vector<int>&color){
+//         queue<int>q;
+//         q.push(i);
+//         color[i] = 1;
+
+//         while(!q.empty()){
+//             int node = q.front();
+//             q.pop();
+
+//             for(auto& nbr: adj[node]){
+//                 if(color[node] == color[nbr]){
+//                     return false;
+//                 }
+
+//                 if(color[nbr] == -1){
+//                     q.push(nbr);
+//                     color[nbr] = 1 - color[node];
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+//     bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+//         unordered_map<int, vector<int>>adj;
+//         for(auto& edge: dislikes){
+//             int u = edge[0];
+//             int v = edge[1];
+//             adj[u].push_back(v);
+//             adj[v].push_back(u);
+//         }
+
+//         vector<int>color(n+1, -1);
+//         for(int i=1; i<=n; i++){
+//             if(color[i] == -1){
+//                 if(bfs(i, adj, color) == false){
+//                     return false;
+//                 }
+//             }
+//         }
+//         return true;
+//     }
+// };
 
 
 

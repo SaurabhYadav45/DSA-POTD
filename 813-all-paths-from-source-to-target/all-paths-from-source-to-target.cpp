@@ -17,9 +17,9 @@ public:
             }
 
             for(auto& nbr: graph[lastNode]){
-                curr.push_back(nbr);
-                q.push(curr);
-                curr.pop_back();
+                vector<int>vec = curr;
+                vec.push_back(nbr);
+                q.push(vec);
             }
         }
         return result;

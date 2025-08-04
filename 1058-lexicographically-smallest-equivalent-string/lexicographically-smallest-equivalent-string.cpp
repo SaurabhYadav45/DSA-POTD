@@ -11,7 +11,7 @@ public:
         }
         return minChar;
     }
-    string smallestEquivalentString(string s1, string s2, string baseStr) {
+    string smallestEquivalentString(string& s1, string& s2, string& baseStr) {
         unordered_map<char, vector<char>>adj;
         for(int i=0; i<s1.length(); i++){
             char u = s1[i];

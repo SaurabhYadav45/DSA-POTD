@@ -22,71 +22,63 @@
 // };
 
 
-//     **************** Binary Search ******************
+
+//      *************** Upper Bound ********************
 
 class Solution {
-public:
-    bool isPossible(vector<int>& nums, int k, int mid) {
-        int n = nums.size();
-        for (int i = 0; i <= mid; i++) {
-            int start = i;                  // Remove i from start
-            int end = n - (mid - i) - 1;    // Remove (mid-i) from end
-
-            int mini = nums[start];
-            int maxi = nums[end];
-
-            if (1LL * maxi <= 1LL * mini * k) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+public:   
     int minRemoval(vector<int>& nums, int k) {
         int n = nums.size();
         sort(nums.begin(), nums.end());
 
-        int low = 0, high = n - 1, result = n - 1;
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-
-            if (isPossible(nums, k, mid)) {
-                result = mid;
-                high = mid - 1;
-            } else {
-                low = mid + 1; 
-            }
+        int maxLength = 0;
+        for(int start = 0; start<n; start++){
+            long long limit = 1LL*nums[start]*k;
+            int end = upper_bound(nums.begin()+start, nums.end(), limit) - nums.begin() - 1;
+            maxLength = max(maxLength, end-start+1);
         }
-        return result;
+        return n - maxLength;
     }
 };
 
 
-
-
-//      ******************* Wrong Solution *****************
-//   Failed for tetscases where we need to delete element from start and end both side 
+//     **************** Binary Search ******************
 
 // class Solution {
-// public:   
+// public:
+//     bool isPossible(vector<int>& nums, int k, int mid) {
+//         int n = nums.size();
+//         for (int i = 0; i <= mid; i++) {
+//             int start = i;                  // Remove i from start
+//             int end = n - (mid - i) - 1;    // Remove (mid-i) from end
+
+//             int mini = nums[start];
+//             int maxi = nums[end];
+
+//             if (1LL * maxi <= 1LL * mini * k) {
+//                 return true;
+//             }
+//         }
+//         return false;
+//     }
+
 //     int minRemoval(vector<int>& nums, int k) {
 //         int n = nums.size();
 //         sort(nums.begin(), nums.end());
 
-//         for(int i=0; i<n; i++){
-//             int mini1 = nums[0+i];
-//             int maxi1 = nums[n-1];
+//         int low = 0;
+//         int high = n; 
+//         int result = 0;
+//         while (low <= high) {
+//             int mid = low + (high - low) / 2;
 
-//             int mini2 = nums[0];
-//             int maxi2 = nums[n-1-i];
-
-//             if(maxi1 <= mini1*k){
-//                 return i;
-//             }
-//             else if(maxi2 <= mini2*k){
-//                 return i;
+//             if (isPossible(nums, k, mid)) {
+//                 result = mid;
+//                 high = mid - 1;
+//             } else {
+//                 low = mid + 1; 
 //             }
 //         }
-//         return -1;
+//         return result;
 //     }
 // };

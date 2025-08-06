@@ -1,20 +1,43 @@
+//        **************** Space Optimization ******************
+
+// class Solution {
+// public:
+//     int rob(vector<int>& nums) {
+//         int n = nums.size();
+
+//         if(n == 1) return nums[0];
+
+//         int prev = 0;
+//         int prevNext = nums[0];
+//         int curr = 0;
+
+//         for(int i=1; i<n; i++){
+//             curr = max(nums[i]+prev, prevNext);
+//             prev = prevNext;
+//             prevNext = curr;
+//         }
+//         return curr;
+//     }
+// };
+
+
+//          ***************** Bottom UP ****************
+
 class Solution {
 public:
     int rob(vector<int>& nums) {
         int n = nums.size();
 
         if(n == 1) return nums[0];
-        
-        int prev = 0;
-        int prevNext = nums[0];
-        int curr = 0;
 
-        for(int i=1; i<n; i++){
-            curr = max(nums[i]+prev, prevNext);
-            prev = prevNext;
-            prevNext = curr;
+        vector<int>dp(n+1, 0);
+        dp[0] = 0;
+        dp[1] = nums[0];
+
+        for(int i=2; i<=n; i++){
+            dp[i] = max(nums[i-1] + dp[i-2], dp[i-1]);
         }
-        return curr;
+        return dp[n];
     }
 };
 

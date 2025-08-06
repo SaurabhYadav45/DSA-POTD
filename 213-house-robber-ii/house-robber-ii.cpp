@@ -1,28 +1,63 @@
 class Solution {
 public:
-    int solveUsingMemo(vector<int>& nums, int s, int e, vector<int>&dp){
-        // Base case
-        if(s>e) return 0;
-        if(dp[s] != -1) return dp[s];
-
-        int robAmt1 = nums[s] +solveUsingMemo(nums, s+2, e, dp);
-        int robAmt2 = 0 + solveUsingMemo(nums, s+1, e, dp);
-
-        dp[s] =  max(robAmt1, robAmt2);
-        return dp[s];
-    }
     int rob(vector<int>& nums) {
-     int n = nums.size();
-     if(n == 1) return nums[0];
-     if(n == 2) return max(nums[0], nums[1]);
+    int n = nums.size();
+    if(n == 1) return nums[0];
+    if(n == 2) return max(nums[0], nums[1]);
 
-     vector<int>dp(n, -1);
-     int option1 = solveUsingMemo(nums, 0, n-2, dp);
+    vector<int>dp(n+1, 0);
+    dp[0] = 0;
+    for(int i=1; i<=n-1; i++){
+        int steal = nums[i-1] + ((i-2 >= 0) ? dp[i-2] : 0);
+        int skip = dp[i-1];
+        dp[i] = max(steal, skip);
+    }
+    int result1 = dp[n-1];
 
-     dp = vector<int>(n, -1);
-     int option2 = solveUsingMemo(nums, 1, n-1, dp);
+    dp.clear();
+    dp[0] = 0;
+    dp[1] = 0;
+    for(int i=2; i<=n; i++){
+        int steal = nums[i-1] + ((i-2 >= 0) ? dp[i-2] : 0);
+        int skip = dp[i-1];
+        dp[i] = max(steal, skip);
+    }
+    int result2 = dp[n];
 
-     int maxAmt = max(option1, option2);
-     return maxAmt;
+    int maxAmt = max(result1, result2);
+    return maxAmt;
     }
 };
+
+
+
+//           ********** Recursion + Memoization *************
+
+// class Solution {
+// public:
+//     int solveUsingMemo(vector<int>& nums, int i, int n, vector<int>&dp){
+//         // Base case
+//         if(i>n) return 0;
+//         if(dp[i] != -1) return dp[i];
+
+//         int robAmt1 = nums[i] + solveUsingMemo(nums, i+2, n, dp);
+//         int robAmt2 = solveUsingMemo(nums, i+1, n, dp);
+
+//         dp[i] =  max(robAmt1, robAmt2);
+//         return dp[i];
+//     }
+//     int rob(vector<int>& nums) {
+//      int n = nums.size();
+//      if(n == 1) return nums[0];
+//      if(n == 2) return max(nums[0], nums[1]);
+
+//      vector<int>dp(n, -1);
+//      int option1 = solveUsingMemo(nums, 0, n-2, dp);
+
+//      dp = vector<int>(n, -1);
+//      int option2 = solveUsingMemo(nums, 1, n-1, dp);
+
+//      int maxAmt = max(option1, option2);
+//      return maxAmt;
+//     }
+// };

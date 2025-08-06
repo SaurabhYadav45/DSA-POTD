@@ -14,7 +14,7 @@ public:
     }
     int result1 = dp[n-1];
 
-    dp.clear();
+    dp.assign(n+1, 0);
     dp[0] = 0;
     dp[1] = 0;
     for(int i=2; i<=n; i++){

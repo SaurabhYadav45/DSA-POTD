@@ -12,7 +12,7 @@ public:
             return dp[n][amount];
         }
 
-        int take = 1e9;
+        int take = INT_MAX;
         if(coins[n] <= amount){
             take = 1 + solve(coins, n, amount-coins[n], dp);
         }

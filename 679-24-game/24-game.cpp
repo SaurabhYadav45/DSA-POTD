@@ -19,13 +19,13 @@ public:
 
                 double a = nums[i];
                 double b = nums[j];
-                vector<double>possible = {a+b, a-b, b-a, a*b};
+                vector<double>possible = {a+b, a-b, a*b};
                 if(b != 0.0){
                     possible.push_back(a/b);
                 }
-                if(a != 0.0){
-                    possible.push_back(b/a);
-                }
+                // if(a != 0.0){
+                //     possible.push_back(b/a);
+                // }
 
                 for(double& num: possible){
                     rem.push_back(num);

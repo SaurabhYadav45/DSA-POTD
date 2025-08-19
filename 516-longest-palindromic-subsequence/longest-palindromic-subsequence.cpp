@@ -1,32 +1,62 @@
 class Solution {
 public:
-    int solve(int i, int j, string& s1, string& s2, vector<vector<int>>&dp){
-        if(i == 0 || j == 0){
-            return 0;
-        }
+    int n;
+    int solve(int i, int j, string& s1, string& s2){
+        vector<vector<int>>dp(n+1, vector<int>(n+1, 0));
 
-        if(dp[i][j] != -1){
-            return dp[i][j];
+        for(int i=1; i<n+1; i++){
+            for(int j=1; j<n+1; j++){
+                if(s1[i-1] == s2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = max(dp[i][j-1], dp[i-1][j]);
+                }
+            }
         }
-
-        if(s1[i-1] == s2[j-1]){
-            return dp[i][j] = 1 + solve(i-1, j-1, s1, s2, dp);
-        }
-        else{
-            int case1 = solve(i, j-1, s1, s2, dp);
-            int case2 = solve(i-1, j, s1, s2, dp);
-            return dp[i][j] = max(case1, case2);
-        }
+        return dp[n][n];
     }
     int longestPalindromeSubseq(string s) {
-        int n = s.size();
+        n = s.size();
         string s1 = s;
         string s2 = s;
         reverse(s2.begin(), s2.end());
-        vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
-        return solve(n, n, s1, s2, dp);
+        return solve(n, n, s1, s2);
     }
 };
+
+
+//      **************** Approach : 1 => Rec + Memo ***************
+
+// class Solution {
+// public:
+//     int solve(int i, int j, string& s1, string& s2, vector<vector<int>>&dp){
+//         if(i == 0 || j == 0){
+//             return 0;
+//         }
+
+//         if(dp[i][j] != -1){
+//             return dp[i][j];
+//         }
+
+//         if(s1[i-1] == s2[j-1]){
+//             return dp[i][j] = 1 + solve(i-1, j-1, s1, s2, dp);
+//         }
+//         else{
+//             int case1 = solve(i, j-1, s1, s2, dp);
+//             int case2 = solve(i-1, j, s1, s2, dp);
+//             return dp[i][j] = max(case1, case2);
+//         }
+//     }
+//     int longestPalindromeSubseq(string s) {
+//         int n = s.size();
+//         string s1 = s;
+//         string s2 = s;
+//         reverse(s2.begin(), s2.end());
+//         vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
+//         return solve(n, n, s1, s2, dp);
+//     }
+// };
 
 
 

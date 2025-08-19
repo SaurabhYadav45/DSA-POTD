@@ -1,69 +1,63 @@
+//         *********** Tabulation *****************
+
 class Solution {
 public:
-    int m, n;
-    int solve(int m, int n, string& s1, string& s2, vector<vector<int>>&dp){
-        if(m < 0 || n < 0) return 0;
-
-        if(dp[m][n] != -1){
-            return dp[m][n];
-        }
-
-        // Match
-        if(s1[m] == s2[n]){
-            return 1 + solve(m-1, n-1, s1, s2, dp);
-        }
-        // Didn't match
-        int case1 = solve(m-1, n, s1, s2, dp);
-        int case2 = solve(m, n-1, s1, s2, dp);
-        return dp[m][n] = max(case1, case2);
-    }
     int longestCommonSubsequence(string text1, string text2) {
-        m = text1.length();
-        n = text2.length();
-        vector<vector<int>>dp(m+1, vector<int>(n+1, -1));
-        return solve(m-1, n-1, text1, text2, dp);
+        int m = text1.length();
+        int n = text2.length();
+        vector<vector<int>>dp(m+1, vector<int>(n+1, 0));
+        // Initialization
+        // dp[i][j] = LCS in s1(0..i) && s2(0...j)
+        // Make the first row and col zero
+
+        for(int i=1; i<m+1; i++){
+            for(int j=1; j<n+1; j++){
+                if(text1[i-1] == text2[j-1]){
+                    dp[i][j] = 1 + dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        return dp[m][n];
     }
 };
+
+
+//           ************ Rec + Memo *****************
+
+// class Solution {
+// public:
+//     int m, n;
+//     int solve(int i, int i, string& s1, string& s2, vector<vector<int>>&dp){
+//         if(i < 0 || j < 0) return 0;
+
+//         if(dp[i][j] != -1){
+//             return dp[i][j];
+//         }
+
+//         // Match
+//         if(s1[i] == s2[j]){
+//             return 1 + solve(i-1, j-1, s1, s2, dp);
+//         }
+//         // Didn't match
+//         int case1 = solve(i-1, j, s1, s2, dp);
+//         int case2 = solve(i, j-1, s1, s2, dp);
+//         return dp[i][j] = max(case1, case2);
+//     }
+//     int longestCommonSubsequence(string text1, string text2) {
+//         m = text1.length();
+//         n = text2.length();
+//         vector<vector<int>>dp(m+1, vector<int>(n+1, -1));
+//         return solve(m-1, n-1, text1, text2, dp);
+//     }
+// };
 
 
 
 // class Solution {
 // public:
-//     int solveUsingRecursion(string text1, string text2, int i, int j){
-//         // Base case
-//         if(i >= text1.length()) return 0;
-//         if(j >= text2.length()) return 0;
-
-//         int  ans =0;
-//         if(text1[i] == text2[j]){
-//             ans = 1 + solveUsingRecursion(text1, text2, i+1, j+1);
-//         }
-//         else{
-//             ans = max(solveUsingRecursion(text1, text2, i+1, j), 
-//                      solveUsingRecursion(text1, text2, i, j+1));
-//         }
-//         return ans;
-//     }
-
-//     int solveUsingMemo(string& text1, string& text2, int i, int j, vector<vector<int>>&dp){
-//         // Base case
-//         if(i >= text1.length()) return 0;
-//         if(j >= text2.length()) return 0;
-
-//         if(dp[i][j] != -1) return dp[i][j];
-
-//         int  ans =0;
-//         if(text1[i] == text2[j]){
-//             ans = 1 + solveUsingMemo(text1, text2, i+1, j+1, dp);
-//         }
-//         else{
-//             ans = max(solveUsingMemo(text1, text2, i+1, j, dp), 
-//                      solveUsingMemo(text1, text2, i, j+1, dp));
-//         }
-//         dp[i][j] = ans;
-//         return dp[i][j];
-//     }
-
 //     // int solveUsingTabulation(string& text1, string& text2, int i, int j){
 //     //     vector<vector<int>>dp(text1.length()+1, vector<int>(text2.length()+1, 0));
 

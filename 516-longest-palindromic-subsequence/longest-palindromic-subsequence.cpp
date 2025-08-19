@@ -1,31 +1,60 @@
-    //  **************** Approach : 1 => Rec + Memo ***************
+
+    //  **************** Approach : 2 => Tabulation ***************
 
 class Solution {
 public:
     int n;
-    int solve(int i, int j, string& s, vector<vector<int>>&dp){
-        if(i > j) return 0;
-        if(i == j) return 1;
-
-        if(dp[i][j] != -1){
-            return dp[i][j];
-        }
-
-        if(s[i] == s[j]){
-            return dp[i][j] = 2 + solve(i+1, j-1, s, dp);
-        }
-        else{
-            int case1 = solve(i, j-1, s, dp);
-            int case2 = solve(i+1, j, s, dp);
-            return dp[i][j] = max(case1, case2);
-        }
-    }
     int longestPalindromeSubseq(string s) {
         n = s.size();
-        vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
-        return solve(0, n-1, s, dp);
+        vector<vector<int>>dp(n, vector<int>(n));
+
+        for(int i=0; i<n; i++){
+            dp[i][i] = 1;
+        }
+        
+        for(int l = 2; l <=n; l++){
+            for(int i=0; i + l-1<n; i++){
+                int j = i + l-1;
+                if(s[i] == s[j]){
+                    dp[i][j] = 2 + dp[i+1][j-1];
+                }
+                else{
+                    dp[i][j] = max(dp[i+1][j], dp[i][j-1]);
+                }
+            }
+        }
+        return dp[0][n-1];
     }
 };
+
+//     //  **************** Approach : 2 => Rec + Memo ***************
+
+// class Solution {
+// public:
+//     int n;
+//     int solve(int i, int j, string& s, vector<vector<int>>&dp){
+//         if(i > j) return 0;
+//         if(i == j) return 1;
+
+//         if(dp[i][j] != -1){
+//             return dp[i][j];
+//         }
+
+//         if(s[i] == s[j]){
+//             return dp[i][j] = 2 + solve(i+1, j-1, s, dp);
+//         }
+//         else{
+//             int case1 = solve(i, j-1, s, dp);
+//             int case2 = solve(i+1, j, s, dp);
+//             return dp[i][j] = max(case1, case2);
+//         }
+//     }
+//     int longestPalindromeSubseq(string s) {
+//         n = s.size();
+//         vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
+//         return solve(0, n-1, s, dp);
+//     }
+// };
 
 
 //       *************** Approach : 1 => Tabulation ****************

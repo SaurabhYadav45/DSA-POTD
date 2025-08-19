@@ -1,29 +1,61 @@
+    //  **************** Approach : 1 => Rec + Memo ***************
+
 class Solution {
 public:
     int n;
-    int solve(int i, int j, string& s1, string& s2){
-        vector<vector<int>>dp(n+1, vector<int>(n+1, 0));
+    int solve(int i, int j, string& s, vector<vector<int>>&dp){
+        if(i > j) return 0;
+        if(i == j) return 1;
 
-        for(int i=1; i<n+1; i++){
-            for(int j=1; j<n+1; j++){
-                if(s1[i-1] == s2[j-1]){
-                    dp[i][j] = 1 + dp[i-1][j-1];
-                }
-                else{
-                    dp[i][j] = max(dp[i][j-1], dp[i-1][j]);
-                }
-            }
+        if(dp[i][j] != -1){
+            return dp[i][j];
         }
-        return dp[n][n];
+
+        if(s[i] == s[j]){
+            return dp[i][j] = 2 + solve(i+1, j-1, s, dp);
+        }
+        else{
+            int case1 = solve(i, j-1, s, dp);
+            int case2 = solve(i+1, j, s, dp);
+            return dp[i][j] = max(case1, case2);
+        }
     }
     int longestPalindromeSubseq(string s) {
         n = s.size();
-        string s1 = s;
-        string s2 = s;
-        reverse(s2.begin(), s2.end());
-        return solve(n, n, s1, s2);
+        vector<vector<int>>dp(n+1, vector<int>(n+1, -1));
+        return solve(0, n-1, s, dp);
     }
 };
+
+
+//       *************** Approach : 1 => Tabulation ****************
+
+// class Solution {
+// public:
+//     int n;
+//     int solve(int i, int j, string& s1, string& s2){
+//         vector<vector<int>>dp(n+1, vector<int>(n+1, 0));
+
+//         for(int i=1; i<n+1; i++){
+//             for(int j=1; j<n+1; j++){
+//                 if(s1[i-1] == s2[j-1]){
+//                     dp[i][j] = 1 + dp[i-1][j-1];
+//                 }
+//                 else{
+//                     dp[i][j] = max(dp[i][j-1], dp[i-1][j]);
+//                 }
+//             }
+//         }
+//         return dp[n][n];
+//     }
+//     int longestPalindromeSubseq(string s) {
+//         n = s.size();
+//         string s1 = s;
+//         string s2 = s;
+//         reverse(s2.begin(), s2.end());
+//         return solve(n, n, s1, s2);
+//     }
+// };
 
 
 //      **************** Approach : 1 => Rec + Memo ***************

@@ -1,30 +1,47 @@
 class Solution {
 public:
-    long long solve(int i, bool flag, vector<int>& nums, vector<vector<long long>>&dp){
-        if(i < 0){
-            return 0;
-        }
-
-        if(dp[i][flag] != -1){
-            return dp[i][flag];
-        }
-
-        long long skip = solve(i-1, flag, nums, dp);
-
-        long long val = nums[i];
-        if(!flag){
-            val = -val;
-        }
-        long long take = val + solve(i-1, !flag, nums, dp);
-        long long ans = max(take, skip);
-        return dp[i][flag] = ans;
-    }
     long long maxAlternatingSum(vector<int>& nums) {
         int n = nums.size();
-        vector<vector<long long>>dp(n+1, vector<long long>(2, -1));
-        return solve(n-1, true, nums, dp);
+        vector<vector<long long>>dp(n+1, vector<long long>(2, 0));
+
+        for(int i=1; i<n+1; i++){
+            // odd
+            dp[i][1] = max(dp[i-1][0] + nums[i-1], dp[i-1][1]);
+            // even
+            dp[i][0] = max(dp[i-1][1] - nums[i-1], dp[i-1][0]);
+        }
+        return max(dp[n][0], dp[n][1]);
     }
 };
+
+
+// class Solution {
+// public:
+//     long long solve(int i, bool flag, vector<int>& nums, vector<vector<long long>>&dp){
+//         if(i < 0){
+//             return 0;
+//         }
+
+//         if(dp[i][flag] != -1){
+//             return dp[i][flag];
+//         }
+
+//         long long skip = solve(i-1, flag, nums, dp);
+
+//         long long val = nums[i];
+//         if(!flag){
+//             val = -val;
+//         }
+//         long long take = val + solve(i-1, !flag, nums, dp);
+//         long long ans = max(take, skip);
+//         return dp[i][flag] = ans;
+//     }
+//     long long maxAlternatingSum(vector<int>& nums) {
+//         int n = nums.size();
+//         vector<vector<long long>>dp(n+1, vector<long long>(2, -1));
+//         return solve(n-1, true, nums, dp);
+//     }
+// };
 
 
 // class Solution {

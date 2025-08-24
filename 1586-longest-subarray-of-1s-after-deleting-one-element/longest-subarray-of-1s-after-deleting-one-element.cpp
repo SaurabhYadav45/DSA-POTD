@@ -8,21 +8,13 @@ public:
         while(j < n){
             if(nums[j] == 0){
                 count++;
-                if(count == 2){
-                    int l = j-i-1;
-                    result = max(result, l);
-
-                    while(nums[i] != 0){
-                        i++;
-                    }
-                    i++;
-                    count--;
-                }
             }
+            while(count > 1){
+                if(nums[i] == 0) count--;
+                i++;
+            }
+            result = max(result, j-i);
             j++;
-        }
-        if(count == 0 || count == 1){
-            result = max(result, j-i-1);
         }
         return result;
     }

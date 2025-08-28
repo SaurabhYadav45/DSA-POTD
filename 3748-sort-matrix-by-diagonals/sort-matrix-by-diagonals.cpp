@@ -2,7 +2,7 @@ class Solution {
 public:
     vector<vector<int>> sortMatrix(vector<vector<int>>& grid) {
         int n = grid.size();
-        vector<vector<int>> result(n, vector<int>(n, 0));
+        // vector<vector<int>> result(n, vector<int>(n, 0));
         map<int, vector<int>>mp;
 
         for(int i=0; i<n; i++){
@@ -24,10 +24,10 @@ public:
         for(int i=0; i<n; i++){
             for(int j=0; j<n; j++){
                 int key = i-j;
-                result[i][j] = mp[key].back();
+                grid[i][j] = mp[key].back();
                 mp[key].pop_back();
             }
         }
-        return result;
+        return grid;
     }
 };

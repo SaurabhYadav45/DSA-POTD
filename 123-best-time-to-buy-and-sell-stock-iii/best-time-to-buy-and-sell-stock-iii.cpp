@@ -1,29 +1,60 @@
 class Solution {
 public:
-    int t[100001][2][3];
-    int solve(int i, int buy, int cap, vector<int>& prices){
-        if(i >= prices.size()) return 0;
-        if(cap == 0) return 0;
-
-        if(t[i][buy][cap] != -1){
-            return t[i][buy][cap];
-        }
-
-        if(buy){
-            int take = -prices[i] + solve(i+1, 0, cap, prices);
-            int skip = solve(i+1, 1, cap, prices);
-            return t[i][buy][cap] = max(take, skip);
-        }
-        else{
-            // sell
-            int sell = prices[i] + solve(i+1, 1, cap-1, prices);
-            int dont_sell = solve(i+1, 0, cap, prices);
-            return t[i][buy][cap] = max(sell, dont_sell);
-        }
-    }
     int maxProfit(vector<int>& prices) {
         int n = prices.size();
-        memset(t, -1, sizeof(t));
-        return solve(0, 1, 2, prices);
+        vector<vector<vector<int>>>dp(n+1, vector<vector<int>>(2, vector<int>(3, 0)));
+        // Initalization
+        // t[n][buy][cap] = 0
+        // t[idx][buy][0] = 0;
+
+        for(int i=n-1; i>=0; i--){
+            for(int buy = 0; buy <= 1; buy++){
+                for(int cap = 1; cap <=2; cap++){
+                    if(buy){
+                        int take = -prices[i] + dp[i+1][0][cap];
+                        int skip = dp[i+1][1][cap];
+                        dp[i][buy][cap] = max(take, skip);
+                    }
+                    else{
+                        // sell
+                        int sell = prices[i] + dp[i+1][1][cap-1];
+                        int dont_sell = dp[i+1][0][cap];
+                        dp[i][buy][cap] = max(sell, dont_sell);
+                    }
+                }
+            }
+        }
+        return dp[0][1][2];
     }
 };
+
+
+// class Solution {
+// public:
+//     int t[100001][2][3];
+//     int solve(int i, int buy, int cap, vector<int>& prices){
+//         if(i >= prices.size()) return 0;
+//         if(cap == 0) return 0;
+
+//         if(t[i][buy][cap] != -1){
+//             return t[i][buy][cap];
+//         }
+
+//         if(buy){
+//             int take = -prices[i] + solve(i+1, 0, cap, prices);
+//             int skip = solve(i+1, 1, cap, prices);
+//             return t[i][buy][cap] = max(take, skip);
+//         }
+//         else{
+//             // sell
+//             int sell = prices[i] + solve(i+1, 1, cap-1, prices);
+//             int dont_sell = solve(i+1, 0, cap, prices);
+//             return t[i][buy][cap] = max(sell, dont_sell);
+//         }
+//     }
+//     int maxProfit(vector<int>& prices) {
+//         int n = prices.size();
+//         memset(t, -1, sizeof(t));
+//         return solve(0, 1, 2, prices);
+//     }
+// };

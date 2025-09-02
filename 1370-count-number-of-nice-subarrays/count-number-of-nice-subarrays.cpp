@@ -1,63 +1,47 @@
 class Solution {
 public:
-    int numberOfSubarrays(vector<int>& nums, int k) {
+    int solve(vector<int>& nums, int k){
         int n = nums.size();
-        unordered_map<int, int>mp;
+        if(k < 0) return 0;
+
         int count = 0;
         int sum = 0;
-        mp[0] = 1;
+        int i=0, j=0;
 
-        for(int i=0; i<n; i++){
-            sum += (nums[i] % 2);
-            if(mp.find(sum-k) != mp.end()){
-                count += mp[sum-k];
+        while( j < n){
+            sum += (nums[j] % 2);
+            while(sum > k){
+                sum -= (nums[i] % 2);
+                i++;
             }
-            mp[sum]++;
+            count += (j-i+1);
+            j++;
         }
         return count;
     }
+    int numberOfSubarrays(vector<int>& nums, int k) {
+        int result1 = solve(nums, k);
+        int result2 = solve(nums, k-1);
+        return result1-result2;
+    }
 };
-
 
 // class Solution {
 // public:
 //     int numberOfSubarrays(vector<int>& nums, int k) {
-//         // METHOD - 1 : Using Map
-//         // unordered_map<int, int>mp;
-//         // int oddCount = 0;
-//         // int result=0;
-//         // mp[oddCount] = 1;
-//         // for(int i=0; i<nums.size();i++){
-//         //     oddCount += (nums[i] % 2);
-//         //     if(mp[oddCount-k]){
-//         //         result += mp[oddCount -k];
-//         //     }
-//         //     mp[oddCount]++;
-//         // }
-//         // return result;
+//         int n = nums.size();
+//         unordered_map<int, int>mp;
+//         int count = 0;
+//         int sum = 0;
+//         mp[0] = 1;
 
-
-//         // Method-2 : Sliding Window;
-//         int result =0;
-//         int prevCount =0;
-//         int oddCount =0;
-//         int i=0;
-//         int j=0;
-//         while(j<nums.size()){
-//             if(nums[j] % 2 != 0){
-//                 oddCount++;
-//                 prevCount = 0;
+//         for(int i=0; i<n; i++){
+//             sum += (nums[i] % 2);
+//             if(mp.find(sum-k) != mp.end()){
+//                 count += mp[sum-k];
 //             }
-//             while(oddCount == k){
-//                 prevCount++;
-//                 if(nums[i]%2 == 1){
-//                     oddCount--;
-//                 }
-//                 i++;
-//             }
-//             result += prevCount;
-//             j++;
+//             mp[sum]++;
 //         }
-//         return result;
+//         return count;
 //     }
 // };
